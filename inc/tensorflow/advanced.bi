@@ -13,11 +13,11 @@ See the License for the specific language governing permissions and
 limitations under the License.
 =============================================================================='/
 
-#include once "crt/stddef.bi"
-#include once "crt/stdint.bi"
-
 #ifndef TENSORFLOW_C_C_API_H_
 #define TENSORFLOW_C_C_API_H_
+
+#include "crt/stddef.bi"
+#include "crt/stdint.bi"
 
 extern "C"
 
