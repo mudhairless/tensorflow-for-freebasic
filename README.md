@@ -2,6 +2,6 @@
 
 ## Todo
 
-* [In Progress] Port C API
+* [ ] Port C API (Partiallly Complete)
 * [ ] Higher Level FB Native Wrapper
 * [ ] API Docs for Native Wrapper
