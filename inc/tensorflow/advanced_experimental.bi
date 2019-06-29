@@ -20,7 +20,7 @@ limitations under the License.
 #include "crt/stdint.bi"
 
 #include "tensorflow/advanced.bi"
-'#include "tensorflow/advanced_eager.bi"
+#include "tensorflow/advanced_eager.bi"
 
 extern "C"
 
@@ -40,13 +40,8 @@ declare sub TF_EnqueueNamedTensor(byval session as TF_Session ptr, byval tid as 
 
 declare function TFE_GetServerDef(byval text_proto as const zstring ptr, byval status as TF_Status ptr) as TF_Buffer ptr
 
-type TFE_Context as any
-type TFE_ContextOptions as any
-
 declare function TFE_NewContextFromSession(byval opts as const TFE_ContextOptions ptr, byval s as TF_Session ptr, byval status as TF_Status ptr) as TFE_Context ptr
 declare function TFE_CreateContextFromSession(byval session as TF_Session ptr, byval status as TF_Status ptr) as TFE_Context ptr
-
-type TFE_TensorHandle as any
 
 declare function TFE_DequeueNamedTensor(byval session as TF_Session ptr, byval tid as integer, byval inputtype as TF_DataType, byval status as TF_Status ptr) as TFE_TensorHandle ptr
 declare function TFE_DequeueNamedTensorFromCtx(byval ctx as TFE_Context ptr, byval tid as integer, byval inputtype as TF_DataType, byval status as TF_Status ptr) as TFE_TensorHandle ptr
