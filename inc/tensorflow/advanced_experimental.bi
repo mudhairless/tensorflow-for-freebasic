@@ -54,8 +54,6 @@ declare function TFE_DequeueVariantTensor(byval s as TF_Session ptr, byval tid a
 
 declare sub TFE_TensorHandlePrintDebugString(byval hndl as TFE_TensorHandle ptr)
 
-type TFE_Op as any
-
 declare sub TFE_OpPrintDebugString(byval op as TFE_Op ptr)
 
 type TFE_ExecuteOpNotification as any
