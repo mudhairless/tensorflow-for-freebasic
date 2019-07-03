@@ -1,11 +1,16 @@
 #include "file.bi"
 
+#define LIB_NAME "libtensorflow4fb.a"
+
 declare sub do_clean()
 declare sub do_build()
 
 function realmain() as integer
+    dim opt as string = command(1)
     do_clean
-    do_build
+    if (opt <> "clean") then
+        do_build
+    end if
     return 0
 end function
 
@@ -18,6 +23,10 @@ sub do_clean()
     #ifdef __FB_LINUX__
         platform = "linux"
     #endif
+    #ifdef __FB_DOS__
+        #error "DOS is not supported"
+        platform = "dos"
+    #endif
     chdir(exepath)
     chdir("src")
     dim filename as string = Dir("*.o")
@@ -29,9 +38,9 @@ sub do_clean()
 
     
     chdir(exepath)
-    if(fileexists("lib/" & platform & "/libtensorflow4fb.a")) then
+    if(fileexists("lib/" & platform & "/" & LIB_NAME)) then
         ? "Removing library..."
-        kill "lib/" & platform & "/libtensorflow4fb.a"
+        kill "lib/" & platform & "/" & LIB_NAME
     end if
 end sub
 
@@ -68,10 +77,11 @@ sub do_build()
         filename = dir()
     wend
     chdir(exepath)
-    ? compiler & " " & "-lib " & obj_files & " -x ./lib/" & platform & "/libtensorflow4fb.a " & link_opts
-    exec(compiler, "-lib " & obj_files & " -x ./lib/" & platform & "/libtensorflow4fb.a " & link_opts)
-    
-    
+    ? compiler & " " & "-lib " & obj_files & " -x ./lib/" & platform & "/" & LIB_NAME & " " & link_opts
+    exec(compiler, "-lib " & obj_files & " -x ./lib/" & platform & "/" & LIB_NAME & " " & link_opts)
+    ?
+    ? "Build complete."
+    ?
 end sub
 
 system realmain()
