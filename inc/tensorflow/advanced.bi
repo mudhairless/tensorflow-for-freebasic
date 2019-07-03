@@ -259,11 +259,11 @@ declare sub TF_ImportGraphDefResultsReturnOperations(byval results as TF_ImportG
 declare sub TF_ImportGraphDefResultsMissingUnusedInputMappings(byval results as TF_ImportGraphDefResults ptr, byval num_map as integer ptr, byval src_names as const zstring ptr ptr ptr, byval src_indexes as integer ptr ptr)
 declare sub TF_DeleteImportGraphDefResults(byval results as TF_ImportGraphDefResults ptr)
 declare function TF_GraphImportGraphDefWithResults(byval graph as TF_Graph ptr, byval graph_def as const TF_Buffer ptr, byval options as const TF_ImportGraphDefOptions ptr, byval status as TF_Status ptr) as TF_ImportGraphDefResults ptr
-declare sub TF_GraphImportGraphDefWithReturnOutputs(byval graph as TF_Graph ptr, byval graph_def as const TF_Buffer ptr, byval opts as const TF_ImportGraphDefOptions ptr, byval return_outputs as TF_Output ptr, byval num_return_outputs, byval status as TF_Status ptr)
+declare sub TF_GraphImportGraphDefWithReturnOutputs(byval graph as TF_Graph ptr, byval graph_def as const TF_Buffer ptr, byval opts as const TF_ImportGraphDefOptions ptr, byval return_outputs as TF_Output ptr, byval num_return_outputs as integer, byval status as TF_Status ptr)
 declare sub TF_GraphImportGraphDef(byval grph as TF_Graph ptr, byval graph_def as const TF_Buffer ptr, byval opts as TF_ImportGraphDefOptions ptr, byval status as TF_Status ptr)
 declare sub TF_GraphCopyFunction(byval g as TF_Graph ptr, byval func as const TF_Function ptr, byval grad as const TF_Function ptr, byval status as TF_Status ptr)
 declare function TF_GraphNumFunctions(byval g as TF_Graph ptr) as integer
-declare function TF_GraphGetFunctions(byval g as TF_Graph ptr, byval funcs as TF_Function ptr ptr, byval max_funcs as itneger, byval status as TF_STatus ptr) as integer
+declare function TF_GraphGetFunctions(byval g as TF_Graph ptr, byval funcs as TF_Function ptr ptr, byval max_funcs as integer, byval status as TF_STatus ptr) as integer
 
 declare sub TF_OperationToNodeDef(byval oper as TF_Operation ptr, byval output_node_def as TF_Buffer ptr, byval status as TF_Status ptr)
 
@@ -278,15 +278,15 @@ type Tf_WhileParams
     name_ as zstring ptr
 end type
 
-declare function TF_NewWhile(byval g as TF_Graph ptr, byval inputs as TF_input ptr, byval ninputs as integer, byval status as TF_Status ptr)
+declare function TF_NewWhile(byval g as TF_Graph ptr, byval inputs as TF_input ptr, byval ninputs as integer, byval status as TF_Status ptr) as TF_WhileParams
 declare sub TF_FinishWhile(byval params as const TF_WhileParams ptr, byval status as TF_Status ptr, byval outputs as TF_Output ptr)
 declare sub TF_AbortWhile(byval params as const TF_WhileParams ptr)
 
 declare sub TF_AddGradients(byval g as TF_Graph ptr, byval y as TF_Input ptr, byval ny as integer, byval x as TF_Input ptr, byval nx as integer, byval dx as TF_Output ptr, byval status as Tf_Status ptr, byval dy as TF_Output ptr)
 declare sub TF_AddGradientsWithPrefix(byval g as TF_Graph ptr, byval prefix as const zstring ptr, byval y as TF_Input ptr, byval ny as integer, byval x as TF_Input ptr, byval nx as integer, byval dx as TF_Output ptr, byval status as Tf_Status ptr, byval dy as TF_Output ptr)
 
-declare function TF_GraphToFunction(byval fn_body as const TF_Graph ptr, byval fn_name as const zstring ptr, byval append_hash as ubyte, byval num_opers as integer, byval opers as const TF_Operation ptr const ptr, byval ninputs as integer, byval inputs as const TF_Inputs ptr, byval noutputs as integer, byval outputs as const TF_Output ptr, byval output_names as const zstring ptr const ptr, byval opts as const TF_FunctionOptions ptr, byval desc as const zstring ptr, byval status as TF_Status ptr) as TF_Function ptr
-declare function TF_GraphToFunctionWithControlOutputs(byval fn_body as const TF_Graph ptr, byval fn_name as const zstring ptr, byval append_hash as ubyte, byval num_opers as integer, byval opers as const TF_Operation ptr const ptr, byval ninputs as integer, byval inputs as const TF_Inputs ptr, byval noutputs as integer, byval outputs as const TF_Output ptr, byval output_names as const zstring ptr const ptr, byval ncontrol_outputs as integer, byval control_outputs as const TF_Operation ptr const ptr, byval control_output_names as const zstring ptr const ptr, byval opts as const TF_FunctionOptions ptr, byval desc as const zstring ptr, byval status as TF_Status ptr) as TF_Function ptr
+declare function TF_GraphToFunction(byval fn_body as const TF_Graph ptr, byval fn_name as const zstring ptr, byval append_hash as ubyte, byval num_opers as integer, byval opers as const TF_Operation ptr const ptr, byval ninputs as integer, byval inputs as const TF_Input ptr, byval noutputs as integer, byval outputs as const TF_Output ptr, byval output_names as const zstring ptr const ptr, byval opts as const TF_FunctionOptions ptr, byval desc as const zstring ptr, byval status as TF_Status ptr) as TF_Function ptr
+declare function TF_GraphToFunctionWithControlOutputs(byval fn_body as const TF_Graph ptr, byval fn_name as const zstring ptr, byval append_hash as ubyte, byval num_opers as integer, byval opers as const TF_Operation ptr const ptr, byval ninputs as integer, byval inputs as const TF_Input ptr, byval noutputs as integer, byval outputs as const TF_Output ptr, byval output_names as const zstring ptr const ptr, byval ncontrol_outputs as integer, byval control_outputs as const TF_Operation ptr const ptr, byval control_output_names as const zstring ptr const ptr, byval opts as const TF_FunctionOptions ptr, byval desc as const zstring ptr, byval status as TF_Status ptr) as TF_Function ptr
 
 declare function TF_FunctionName(byval func as TF_Function ptr) as const zstring ptr
 
@@ -305,11 +305,11 @@ declare function TF_LoadSessionFromSavedModel(byval opts as const TF_SessionOpti
 declare sub TF_CloseSession(byval s as TF_Session ptr, byval status as TF_Status ptr)
 declare sub TF_DeleteSession(byval s as TF_Session ptr, byval status as TF_Status ptr)
 declare sub TF_SessionRun(byval s as TF_Session ptr, byval run_opt as const TF_Buffer ptr, byval inputs as const TF_Input ptr, byval input_values as TF_Tensor ptr const ptr, byval ninputs as integer, byval outputs as const TF_Output ptr, byval output_values as TF_Tensor ptr ptr, byval noutputs as integer, byval target_opers as const TF_Operation ptr const ptr, byval ntargets as integer, byval run_metadata as TF_Buffer ptr, byval status as TF_Status ptr)
-declare sub TF_SessionPRunSetup(byval s as TF_Session ptr, byval inputs as const TF_Input ptr, byval ninputs, byval outputs as const TF_Output ptr, byval noutputs, byval target_opers as const TF_Operation ptr const ptr, byval ntargets as integer, byval handle as const zstring ptr ptr, byval status as TF_Status ptr)
+declare sub TF_SessionPRunSetup(byval s as TF_Session ptr, byval inputs as const TF_Input ptr, byval ninputs as integer, byval outputs as const TF_Output ptr, byval noutputs as integer, byval target_opers as const TF_Operation ptr const ptr, byval ntargets as integer, byval handle as const zstring ptr ptr, byval status as TF_Status ptr)
 declare sub TF_SessionPRun(byval s as TF_Session ptr, byval handle as const zstring ptr, byval inputs as const TF_Input ptr, byval input_values as TF_Tensor ptr const ptr, byval ninputs as integer, byval outputs as const TF_Output ptr, byval output_values as TF_Tensor ptr ptr, byval noutputs as integer, byval target_opers as const TF_Operation ptr const ptr, byval ntargets as integer, byval status as TF_STatus ptr)
 declare sub TF_DeletePRunHandle(byval handle as const zstring ptr)
 
-// DeprecatedSession not implemented
+'// DeprecatedSession not implemented
 
 declare sub TF_Reset(byval opts as const TF_SessionOptions ptr, byval containers as const zstring ptr ptr, byval ncontainers as integer, byval status as TF_Status ptr)
 
@@ -328,7 +328,7 @@ type TF_Library as any
 declare function TF_LoadLibrary(byval filename as const zstring ptr, byval status as TF_Status ptr) as TF_Library ptr
 declare function TF_GetOpList(byval lib as TF_Library ptr) as TF_Buffer
 declare sub TF_DeleteLibraryHandle(byval lib as TF_Library ptr)
-declare sub TF_GetAllOpList() as TF_Buffer ptr
+declare function TF_GetAllOpList() as TF_Buffer ptr
 
 type TF_ApiDefMap as any
 
