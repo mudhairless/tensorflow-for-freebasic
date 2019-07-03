@@ -5,7 +5,7 @@
 declare sub do_clean()
 declare sub do_build()
 
-function realmain() as integer
+function real_main_wear_kilts() as integer
     dim opt as string = command(1)
     do_clean
     if (opt <> "clean") then
@@ -84,4 +84,4 @@ sub do_build()
     ?
 end sub
 
-system realmain()
+system real_main_wear_kilts()
